@@ -43,6 +43,10 @@ export type Values<T extends Record< string | symbol | number, any>,> = {
 }[keyof T]
 
 
+export type IsInKeys<K extends string | symbol | number, R extends Record< string | symbol | number, any>> = K extends Keys<R> ? K : never;
+
+export type IsInValues<V extends string | symbol | number, R extends Record< string | symbol | number, any>> = V extends Values<R> ? V : never;
+
 export type ExcludeKey<
   T extends Record< string | symbol | number, any>,
   U extends keyof T
@@ -66,7 +70,6 @@ export type WithPromiseReturn<T extends Func> = Func< Promise<ReturnType<T>>, Fu
 
 export type PromiseReturnType<T> = T extends Func<Promise<infer O>, any[]> ? O : never; 
 
-
 export type ConstructorParamsType<T extends abstract new (...args: any[]) => any> = T extends abstract new (...args: infer O) => any ? O : never
 
 export type ConstructorReturnType<T extends abstract new (...args: any[]) => any> = T extends abstract new (...args: any[]) => infer O ? O : never;
@@ -75,6 +78,9 @@ export type Constructor<R extends any = any, T extends any[] = any[]> = {
     new (...args: T): R;
   };
 
+  export type Methods<T extends Record<string | symbol | number, any>> = {
+    [K in keyof T]: T[K] extends Function ? K : never;
+  }[keyof T];
 
 
 // Inspired by:  https://stackoverflow.com/questions/21224922/is-there-a-way-to-represent-a-non-negative-integer-in-typescript-so-that-the-com
