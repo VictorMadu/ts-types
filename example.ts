@@ -41,7 +41,12 @@ type IExcludeKey = types.ExcludeKey<Obj, "ok">;
 
 type IKeys = types.Keys<Obj>;
 
+type IsInKeys = types.IsInKeys<1, Obj>;
+type IsNotInKeys = types.IsInKeys<"3", Obj>;
+
 type IValues = types.Values<Obj>;
+type IsInValues = types.IsInValues<"two", Obj>;
+type IsNotInValues = types.IsInValues<"foo", Obj>;
 
 type IExtractKeys = types.ExtractKeys<Obj, string>;
 
@@ -70,8 +75,21 @@ type IWithPromiseReturn3 = types.WithPromiseReturn<
   types.Func<types.FuncReturn<typeof fn>, types.FuncParams<typeof fn>>
 >;
 
+const sym = Symbol();
 class Foo {
   constructor(foo1: string, foo2: number) {}
+
+  fooMethod() {
+    return "fooMethod return";
+  }
+
+  barMethod() {
+    return "barMethod return";
+  }
+
+  [sym]() {
+    return "symbol return";
+  }
 }
 
 const FooClass = class {
@@ -91,6 +109,12 @@ type IConstructor2 = types.Constructor<
   IConstructorReturnType,
   IConstructorParamsType
 >;
+
+type IClassMethod = types.Methods<Foo>;
+
+const classMethod1: IClassMethod = Symbol();
+const classMethod2: IClassMethod = sym;
+const classMethod3: IClassMethod = "barMethod";
 
 type IPromiseReturnType1 = types.PromiseReturnType<types.Func>;
 type IPromiseReturnType2 = types.PromiseReturnType<
