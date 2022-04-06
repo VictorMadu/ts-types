@@ -1,2 +1,2 @@
 # ts-types
-Typescript Generic Types
+Typescript utility types. See example.ts
