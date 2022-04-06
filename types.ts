@@ -34,6 +34,15 @@ export type AndWithPromise<K extends any> = K | Promise<K>;
 
 export type AndWithArray<T> = T | T[]
 
+
+export type ExcludeFromTuple<T extends any[],  U extends any, V extends any[] = []> = T extends [
+  infer O,
+  ...(infer P)
+]
+  ? ExcludeFromTuple<P, U, [...V, Exclude<O, U>]>
+  : V;
+
+
 export type Keys<T extends Record< string | symbol | number, any>,> = {
   [K in keyof T]: K
 }[keyof T]

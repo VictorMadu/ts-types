@@ -37,6 +37,21 @@ type IAndWithPromise = types.AndWithPromise<Obj>;
 
 type IAndWithArray = types.AndWithArray<string | number>;
 
+//  ===================== ExcludeFromTuple ================================
+type arr = [
+  string,
+  number | null,
+  string | undefined,
+  number,
+  string | undefined | null
+];
+
+type ExcludeFromTuple1 = types.ExcludeFromTuple<arr, null>;
+type ExcludeFromTuple2 = types.ExcludeFromTuple<arr, undefined>;
+type ExcludeFromTuple3 = types.ExcludeFromTuple<arr, string>;
+type ExcludeFromTuple4 = types.ExcludeFromTuple<arr, number>;
+type ExcludeFromTuple5 = types.ExcludeFromTuple<arr, string | number>;
+
 type IExcludeKey = types.ExcludeKey<Obj, "ok">;
 
 type IKeys = types.Keys<Obj>;
