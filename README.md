@@ -1,7 +1,7 @@
 # Typescript Utility Types  (ts-util-types)
 Typescript utility types. See [examples](example.ts)
 
-Check out [v0.1.0-alpha](npmjs.com/package/ts-util-types) release on npm. My first open source release:sob:
+Check out [v0.1.0-alpha](npmjs.com/package/ts-util-types) release on npm. My first open source in my 4+ years of coding:sob:
 
 ![Screenshot (385)](https://user-images.githubusercontent.com/50826597/162469734-0671e83f-a877-4656-9f24-fbf26a8e8a5d.png)
 
