@@ -104,15 +104,3 @@ export type Float<T extends number> = Integer<T> extends never ? T : never;
 export type PosFloat<T extends number> = Float<T> extends never ? never : `${T}` extends `-${number}.${number}` ? never : T;
 
 export type NegFloat<T extends number> =  Float<T> extends never ? never : PosFloat<T> extends never ? T : never;
-
-// TODO: other datatypes
-
-// TODO: Tackle the following below
-type TwoStrCombo<T extends string, U extends string> = T | U | `${T} ${U}` | `${U} ${T}`;
-
-type ThreeStrCombo<T extends string, U extends string, V extends string> = T | U | V |  `${T} ${U}` | `${T} ${V}` | `${U} ${T}`| `${U} ${V}`  |`${V} ${T}`  |`${V} ${U}`  |   `${T} ${V} ${U}` | `${T} ${U} ${V}` | `${U} ${V} ${T}` | `${U} ${T} ${V}`  | `${V} ${T} ${U}` | `${V} ${U} ${T}`;
-
-// type ShallowPartial<T, U extends string> = {
-//     [K in keyof T]: CC<T, U> extends {} ? {K?: T[K]} : {K: T[K]}
-// }[keyof T]
-
