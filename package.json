@@ -1,6 +1,6 @@
 {
   "name": "ts-types",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha",
   "description": "Typescript Generic Types",
   "main": "src/index.ts",
   "repository": "https://github.com/VictorMadu/ts-types.git",
