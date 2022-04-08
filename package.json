@@ -1,8 +1,7 @@
 {
-  "name": "ts-types",
+  "name": "ts-util-types",
   "version": "0.1.0-alpha",
   "description": "Typescript Generic Types",
-  "main": "src/index.ts",
   "repository": "https://github.com/VictorMadu/ts-types.git",
   "author": "Victor Ebube Madu",
   "license": "MIT",
