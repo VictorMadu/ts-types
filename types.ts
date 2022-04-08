@@ -34,7 +34,6 @@ export type AndWithPromise<K extends any> = K | Promise<K>;
 
 export type AndWithArray<T> = T | T[]
 
-
 export type ExcludeFromTuple<T extends any[],  U extends any, V extends any[] = []> = T extends [
   infer O,
   ...(infer P)
