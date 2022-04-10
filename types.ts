@@ -104,3 +104,22 @@ export type Float<T extends number> = Integer<T> extends never ? T : never;
 export type PosFloat<T extends number> = Float<T> extends never ? never : `${T}` extends `-${number}.${number}` ? never : T;
 
 export type NegFloat<T extends number> =  Float<T> extends never ? never : PosFloat<T> extends never ? T : never;
+
+
+type _InnerValue<T extends Record<string, any> | any, S extends string> = 
+  S  extends `${infer O}.${infer P}` ?  
+    T extends Record<string, any> ? 
+      _InnerValue<T[O], P> 
+      :
+      undefined 
+    :
+    T extends Record<string, any> ?
+      T[S] extends object ?
+        T[S] 
+        : 
+        undefined
+      :
+      undefined
+
+
+export type InnerValue<T extends Record<string, any>, S extends string> = _InnerValue<T, S>;

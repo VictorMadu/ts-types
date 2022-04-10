@@ -215,3 +215,11 @@ negate6(3); // error
 negate6(3.1); // error
 negate6(-3); // error
 negate6(-3.1); // ok
+
+type Obj2 = { dd: { gg: { hh: { hh: "ddef" } } } };
+type InnerValue1 = types.InnerValue<Obj2, "dd.gg.hh.hh">;
+type InnerValue2 = types.InnerValue<Obj2, "dd.gg.hh">;
+type InnerValue3 = types.InnerValue<Obj2, "dd.gg">;
+type InnerValue4 = types.InnerValue<Obj2, "dd">;
+type InnerValue5 = types.InnerValue<Obj2, "">;
+type InnerValue6 = types.InnerValue<Obj2, "ff">;
