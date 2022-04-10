@@ -240,4 +240,7 @@ type InnerValue7 = types.InnerValue<Obj2, "2">;
 type InnerValue8 = types.InnerValue<Obj2, 2>;
 type InnerValue9 = types.InnerValue<Obj2, typeof sym4>;
 
+type InnerKeys1 = types.InnerKeys<Obj>;
+type InnerKeys2 = types.InnerKeys<Obj2>;
+
 // TODO: Replace all T, S with meaningful names
