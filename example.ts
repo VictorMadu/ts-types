@@ -3,7 +3,14 @@ import * as types from "./types";
 type Arr = string[];
 type Tuple = [string, number, { foo: "bar" }];
 type Fn = (foo: string, bar: { one: number; two: Symbol[] }) => string;
-type Obj = { 1: "one"; "2": "two"; ok: "string"; f: "ff"; foo: "bar" };
+type Obj = {
+  1: "one";
+  3: "three";
+  "2": "two";
+  ok: "string";
+  f: "ff";
+  foo: "bar";
+};
 
 type IAnyFn = types.Func;
 
@@ -58,6 +65,8 @@ type IKeys = types.Keys<Obj>;
 
 type IsInKeys = types.IsInKeys<1, Obj>;
 type IsNotInKeys = types.IsInKeys<"3", Obj>;
+
+type IStrKeys = types.StrKeys<Obj>;
 
 type IValues = types.Values<Obj>;
 type IsInValues = types.IsInValues<"two", Obj>;
@@ -215,3 +224,29 @@ negate6(3); // error
 negate6(3.1); // error
 negate6(-3); // error
 negate6(-3.1); // ok
+
+const sym4 = Symbol();
+type Obj2 = {
+  dd: { gg: { hh: { hh: "ddef" } } };
+  2: "two";
+  [sym4]: "sym4";
+  "3"?: string | undefined;
+};
+
+type Prop1 = types.Prop<Obj2, 2>;
+type Prop2 = types.Prop<Obj2, "3">;
+
+type InnerValue1 = types.InnerValue<Obj2, "dd.gg.hh.hh">;
+type InnerValue2 = types.InnerValue<Obj2, "dd.gg.hh">;
+type InnerValue3 = types.InnerValue<Obj2, "dd.gg">;
+type InnerValue4 = types.InnerValue<Obj2, "dd">;
+type InnerValue5 = types.InnerValue<Obj2, "">;
+type InnerValue6 = types.InnerValue<Obj2, "ff">;
+type InnerValue7 = types.InnerValue<Obj2, "2">;
+type InnerValue8 = types.InnerValue<Obj2, 2>;
+type InnerValue9 = types.InnerValue<Obj2, typeof sym4>;
+
+type InnerKeys1 = types.InnerKeys<Obj>;
+type InnerKeys2 = types.InnerKeys<Obj2>;
+
+// TODO: Replace all T, S with meaningful names
