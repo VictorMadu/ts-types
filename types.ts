@@ -124,7 +124,6 @@ type _InnerValueForStrKeys<T extends Record<string | number, any> | any, S exten
       :
       undefined
 
-
 export type InnerValue<T extends Record<string | symbol | number, any>, S extends string | number | symbol> = 
   S extends string ?
     T extends Record<string | number, any> ?
@@ -134,16 +133,17 @@ export type InnerValue<T extends Record<string | symbol | number, any>, S extend
     :
     Prop<T, S>
         
-  type _InnerKeys<T extends Record<string | number | symbol, any>, S extends string> = {
+   
+ type _InnerKeys<T extends Record<string | number | symbol, any>,   IK extends string = ''> = 
+    {
     [K in StrKeys<T>]: 
       T[K] extends Record<string, any> ? 
-        Exclude<S, ''> | _InnerKeys<T[K], S extends '' ? 
-          K 
-          :
-          `${S}.${K}`> 
+        _InnerKeys<T[K], Exclude<IK, ''> | CombineWithAncestors<K, IK>> 
         : 
-        Exclude<S, ''> ;
-  }[StrKeys<T>]
+        IK | CombineWithAncestors<K, IK>
+    }[StrKeys<T>]
 
+type CombineWithAncestors<C extends string, A extends string> = A extends '' ? C : `${A}.${C}`
 
-export type InnerKeys<T extends Record<string | number | symbol, any>> =  Keys<T> | StrKeys<T>| _InnerKeys<T, ''> extends infer O ? O : never;
+export type InnerKeys<T extends Record<string | number | symbol, any>> =  
+  Keys<T> |  _InnerKeys<T, ''> extends infer O ? O : never;

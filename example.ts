@@ -249,4 +249,13 @@ type InnerValue9 = types.InnerValue<Obj2, typeof sym4>;
 type InnerKeys1 = types.InnerKeys<Obj>;
 type InnerKeys2 = types.InnerKeys<Obj2>;
 
+interface Config {
+  app: {
+    address: string;
+    port: number;
+  };
+}
+
+type InnerKeys3 = types.InnerKeys<Config>;
+
 // TODO: Replace all T, S with meaningful names
