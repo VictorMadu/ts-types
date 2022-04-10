@@ -226,9 +226,15 @@ negate6(-3); // error
 negate6(-3.1); // ok
 
 const sym4 = Symbol();
-type Obj2 = { dd: { gg: { hh: { hh: "ddef" } } }; 2: "two"; [sym4]: "sym4" };
+type Obj2 = {
+  dd: { gg: { hh: { hh: "ddef" } } };
+  2: "two";
+  [sym4]: "sym4";
+  "3"?: string | undefined;
+};
 
 type Prop1 = types.Prop<Obj2, 2>;
+type Prop2 = types.Prop<Obj2, "3">;
 
 type InnerValue1 = types.InnerValue<Obj2, "dd.gg.hh.hh">;
 type InnerValue2 = types.InnerValue<Obj2, "dd.gg.hh">;
