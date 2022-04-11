@@ -109,7 +109,7 @@ export type PosFloat<T extends number> = Float<T> extends never ? never : `${T}`
 
 export type NegFloat<T extends number> =  Float<T> extends never ? never : PosFloat<T> extends never ? T : never;
 
-export type Prop<T extends Record<string | symbol | number, any>, S extends string | number | symbol> = S extends Keys<T> | StrKeys<T> ? T[S] : undefined;
+export type Prop<T extends Record<string | symbol | number, any>, S extends unknown> = S extends Keys<T> | StrKeys<T> ? T[S] : undefined;
 
 
 type _InnerValueForStrKeys<T extends Record<string | number, any> | any, S extends string> = 
@@ -124,7 +124,7 @@ type _InnerValueForStrKeys<T extends Record<string | number, any> | any, S exten
       :
       undefined
 
-export type InnerValue<T extends Record<string | symbol | number, any>, S extends string | number | symbol> = 
+export type InnerValue<T extends Record<string | symbol | number, any>, S extends unknown> = 
   S extends string ?
     T extends Record<string | number, any> ?
       _InnerValueForStrKeys<T, S>
