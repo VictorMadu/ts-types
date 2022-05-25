@@ -30,9 +30,9 @@ export type ExactlyOne<T extends Record<string | symbol | number, any>> =  {
   }
 }[keyof T]
 
-export type AndWithPromise<K extends any> = K | Promise<K>;
+export type OrWithPromise<K extends any> = K | Promise<K>;
 
-export type AndWithArray<T> = T | T[]
+export type OrWithArray<T> = T | T[]
 
 export type ExcludeFromTuple<T extends any[],  U extends any, V extends any[] = []> = T extends [
   infer O,
@@ -46,9 +46,13 @@ export type Keys<T extends Record< string | symbol | number, any>> = {
   [K in keyof T]: K
 }[keyof T]
 
+
+// TODO: Look into this
 export type StrKeys<T extends Record< string | symbol | number, any>> = {
   [K in keyof T]: K extends string | number  ? `${K}` : never
 }[keyof T]
+
+// export type StrKeys<T extends Record< string | symbol | number, any>> = Extract<Keys<T>, string>
 
 export type Values<T extends Record< string | symbol | number, any>> = {
   [K in keyof T]: T[K]
@@ -109,7 +113,7 @@ export type PosFloat<T extends number> = Float<T> extends never ? never : `${T}`
 
 export type NegFloat<T extends number> =  Float<T> extends never ? never : PosFloat<T> extends never ? T : never;
 
-export type Prop<T extends Record<string | symbol | number, any>, S extends string | number | symbol> = S extends Keys<T> | StrKeys<T> ? T[S] : undefined;
+export type Prop<T extends Record<string | symbol | number, any>, S extends unknown> = S extends Keys<T> | StrKeys<T> ? T[S] : undefined;
 
 
 type _InnerValueForStrKeys<T extends Record<string | number, any> | any, S extends string> = 
@@ -124,8 +128,7 @@ type _InnerValueForStrKeys<T extends Record<string | number, any> | any, S exten
       :
       undefined
 
-
-export type InnerValue<T extends Record<string | symbol | number, any>, S extends string | number | symbol> = 
+export type InnerValue<T extends Record<string | symbol | number, any>, S extends unknown> = 
   S extends string ?
     T extends Record<string | number, any> ?
       _InnerValueForStrKeys<T, S>
@@ -134,16 +137,20 @@ export type InnerValue<T extends Record<string | symbol | number, any>, S extend
     :
     Prop<T, S>
         
-  type _InnerKeys<T extends Record<string | number | symbol, any>, S extends string> = {
+   
+ type _InnerKeys<T extends Record<string | number | symbol, any>,   IK extends string = ''> = 
+    {
     [K in StrKeys<T>]: 
       T[K] extends Record<string, any> ? 
-        Exclude<S, ''> | _InnerKeys<T[K], S extends '' ? 
-          K 
-          :
-          `${S}.${K}`> 
+        T[K] extends Array<any> ?
+          IK | CombineWithAncestors<K, IK> :
+          _InnerKeys<T[K], Exclude<IK, ''> | CombineWithAncestors<K, IK>> 
         : 
-        Exclude<S, ''> ;
-  }[StrKeys<T>]
+        IK | CombineWithAncestors<K, IK>
+    }[StrKeys<T>]
 
+type CombineWithAncestors<C extends string, A extends string> = A extends '' ? C : `${A}.${C}`
 
-export type InnerKeys<T extends Record<string | number | symbol, any>> =  Keys<T> | StrKeys<T>| _InnerKeys<T, ''> extends infer O ? O : never;
+export type InnerKeys<T extends Record<string | number | symbol, any>> =  
+  Keys<T> |  Exclude<_InnerKeys<T, ''>, ''> extends infer O ? O : never;
+
