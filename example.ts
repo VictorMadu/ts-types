@@ -40,9 +40,9 @@ type IAtLeastOne = types.AtLeastOne<Obj>;
 
 type IExactylyOne = types.ExactlyOne<Obj>;
 
-type IAndWithPromise = types.AndWithPromise<Obj>;
+type IOrWithPromise = types.OrWithPromise<Obj>;
 
-type IAndWithArray = types.AndWithArray<string | number>;
+type IOrWithArray = types.OrWithArray<string | number>;
 
 //  ===================== ExcludeFromTuple ================================
 type arr = [

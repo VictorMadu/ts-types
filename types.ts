@@ -30,9 +30,9 @@ export type ExactlyOne<T extends Record<string | symbol | number, any>> =  {
   }
 }[keyof T]
 
-export type AndWithPromise<K extends any> = K | Promise<K>;
+export type OrWithPromise<K extends any> = K | Promise<K>;
 
-export type AndWithArray<T> = T | T[]
+export type OrWithArray<T> = T | T[]
 
 export type ExcludeFromTuple<T extends any[],  U extends any, V extends any[] = []> = T extends [
   infer O,
@@ -46,9 +46,13 @@ export type Keys<T extends Record< string | symbol | number, any>> = {
   [K in keyof T]: K
 }[keyof T]
 
+
+// TODO: Look into this
 export type StrKeys<T extends Record< string | symbol | number, any>> = {
   [K in keyof T]: K extends string | number  ? `${K}` : never
 }[keyof T]
+
+// export type StrKeys<T extends Record< string | symbol | number, any>> = Extract<Keys<T>, string>
 
 export type Values<T extends Record< string | symbol | number, any>> = {
   [K in keyof T]: T[K]
@@ -138,7 +142,9 @@ export type InnerValue<T extends Record<string | symbol | number, any>, S extend
     {
     [K in StrKeys<T>]: 
       T[K] extends Record<string, any> ? 
-        _InnerKeys<T[K], Exclude<IK, ''> | CombineWithAncestors<K, IK>> 
+        T[K] extends Array<any> ?
+          IK | CombineWithAncestors<K, IK> :
+          _InnerKeys<T[K], Exclude<IK, ''> | CombineWithAncestors<K, IK>> 
         : 
         IK | CombineWithAncestors<K, IK>
     }[StrKeys<T>]
@@ -146,4 +152,5 @@ export type InnerValue<T extends Record<string | symbol | number, any>, S extend
 type CombineWithAncestors<C extends string, A extends string> = A extends '' ? C : `${A}.${C}`
 
 export type InnerKeys<T extends Record<string | number | symbol, any>> =  
-  Keys<T> |  _InnerKeys<T, ''> extends infer O ? O : never;
+  Keys<T> |  Exclude<_InnerKeys<T, ''>, ''> extends infer O ? O : never;
+
