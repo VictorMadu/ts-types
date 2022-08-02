@@ -259,3 +259,8 @@ interface Config {
 type InnerKeys3 = types.InnerKeys<Config>;
 
 // TODO: Replace all T, S with meaningful names
+
+type Require = types.Require<{ foo?: string; bar?: number }, "foo">; // {foo:string; bar?:number}
+type Optional = types.Optional<{ foo: string; bar?: number }, "foo">; // {foo?:string; bar?:number}
+
+type AddParameters = types.AddParameters<(foo: string) => void, [bar: number]>; // (foo:string,bar:number) => void
