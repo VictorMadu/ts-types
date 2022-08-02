@@ -154,3 +154,19 @@ type CombineWithAncestors<C extends string, A extends string> = A extends '' ? C
 export type InnerKeys<T extends Record<string | number | symbol, any>> =  
   Keys<T> |  Exclude<_InnerKeys<T, ''>, ''> extends infer O ? O : never;
 
+/**
+ * Makes property "Key" in object "Type" required
+ */
+ export type Require<Type, Key extends keyof Type> = Type & { [P in Key]-?: Type[P] };
+
+ /**
+ * Makes property "Key" in object "Type" optional
+ */
+export type Optional<Type, Key extends keyof Type> = Pick<Partial<Type>, Key> & Omit<Type, Key>;
+
+/**
+ * Adds parameters "TParameters" to function "TFunction"
+ */
+ export type AddParameters<TFunction extends (...args: any) => any, TParameters extends [...args: any]> = (
+  ...args: [...Parameters<TFunction>, ...TParameters]
+) => ReturnType<TFunction>;
